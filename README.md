@@ -97,6 +97,30 @@ First compile:
 make
 ```
 
+### AMD Zen5 / AVX-512 Optimization
+
+For AMD Zen5 CPUs or systems with AVX-512 support, you can build optimized versions for significantly better performance:
+
+```bash
+# For AMD Zen5 with AVX-512 support (3-5x faster hash operations)
+make zen5-full
+
+# For AMD Zen CPUs with AVX2 only (2-3x faster)
+make zen5-avx2
+
+# Check your CPU capabilities
+make check-cpu
+
+# View all build options
+make help
+```
+
+**Performance gains:**
+- Hash functions (SHA256/RIPEMD160): ~2x speedup with AVX-512
+- Overall key search: 3-5x improvement on Zen5 processors
+
+See [OPTIMIZATION_ZEN5.md](OPTIMIZATION_ZEN5.md) for detailed optimization documentation.
+
 if you have problems compiling the `main` version you can compile the `legacy` version
 
 ```
