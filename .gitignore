@@ -61,3 +61,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Backup files
+*.bak
+
+# CPU feature detection utility
+check-cpu

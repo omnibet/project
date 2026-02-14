@@ -46,6 +46,15 @@ void ripemd160sse_32(uint8_t *i0, uint8_t *i1, uint8_t *i2, uint8_t *i3,
 void ripemd160sse_test();
 std::string ripemd160_hex(unsigned char *digest);
 
+// AVX-512 optimized functions (8-way parallel)
+#ifdef __AVX512F__
+void ripemd160avx512_8x_32(
+  uint8_t *i0, uint8_t *i1, uint8_t *i2, uint8_t *i3,
+  uint8_t *i4, uint8_t *i5, uint8_t *i6, uint8_t *i7,
+  uint8_t *d0, uint8_t *d1, uint8_t *d2, uint8_t *d3,
+  uint8_t *d4, uint8_t *d5, uint8_t *d6, uint8_t *d7);
+#endif
+
 static inline bool ripemd160_comp_hash(uint8_t *h0, uint8_t *h1) {
   uint32_t *h0i = (uint32_t *)h0;
   uint32_t *h1i = (uint32_t *)h1;
