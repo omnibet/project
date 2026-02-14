@@ -10,8 +10,10 @@ COMMON_CXX_FLAGS = $(COMMON_FLAGS) -Wno-deprecated-copy
 COMMON_C_FLAGS = $(COMMON_FLAGS) -Wno-unused-parameter
 
 # Architecture-specific flags
-ZEN5_FLAGS = -march=znver5 -mtune=znver5 -mavx2 -mavx512f -mavx512dq -mavx512bw -mavx512vl
-ZEN5_AVX2_FLAGS = -march=znver3 -mtune=znver5 -mavx2
+# Note: Using -march=znver4 for now as znver5 requires GCC 14+/Clang 18+
+# znver4 supports AVX-512 and is compatible with Zen5 CPUs
+ZEN5_FLAGS = -march=znver4 -mtune=znver4 -mavx2 -mavx512f -mavx512dq -mavx512bw -mavx512vl
+ZEN5_AVX2_FLAGS = -march=znver3 -mtune=znver4 -mavx2
 GENERIC_FLAGS = -march=native -mtune=native
 LEGACY_SSE_FLAGS = -mssse3
 
@@ -152,7 +154,7 @@ help:
 	@echo "Available build targets:"
 	@echo "  make               - Build with generic optimizations (default)"
 	@echo "  make generic       - Same as default"
-	@echo "  make zen5-full     - Build for AMD Zen5 with full AVX-512 support"
+	@echo "  make zen5-full     - Build for AMD Zen5 with full AVX-512 support (uses znver4)"
 	@echo "  make zen5-avx2     - Build for AMD Zen5 with AVX2 (no AVX-512)"
 	@echo "  make legacy        - Build legacy version with GMP"
 	@echo "  make bsgsd         - Build BSGSD mode"
@@ -163,5 +165,7 @@ help:
 	@echo "  zen5-full: GCC 11+ or Clang 14+ (for AVX-512 support)"
 	@echo "  zen5-avx2: GCC 4.9+ or Clang 3.4+"
 	@echo "  generic:   GCC 4.8+ or Clang 3.3+"
+	@echo ""
+	@echo "Note: zen5-full uses -march=znver4 (znver5 requires GCC 14+/Clang 18+)"
 
 .PHONY: default zen5-full zen5-avx2 generic legacy bsgsd check-cpu clean help

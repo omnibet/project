@@ -21,8 +21,10 @@ Expected performance gains over the generic build:
 ### Prerequisites
 
 For full AVX-512 support:
-- **GCC 11.0+** or **Clang 14.0+**
+- **GCC 11.0+** or **Clang 14.0+** (AVX-512 intrinsics support)
 - AMD Zen5 CPU (or compatible with AVX-512)
+
+**Note:** The build currently uses `-march=znver4` flag as explicit `znver5` support requires GCC 14+ or Clang 18+. The znver4 target includes full AVX-512 support and is compatible with Zen5 processors.
 
 For AVX2-only support:
 - **GCC 4.9+** or **Clang 3.4+**
@@ -57,6 +59,8 @@ make clean
 
 #### 1. Zen5 Full Build (Recommended for Zen5 CPUs)
 
+**Note:** Currently uses `-march=znver4` as `znver5` requires GCC 14+ or Clang 18+. The znver4 target includes AVX-512 support and is fully compatible with Zen5 CPUs.
+
 ```bash
 make clean
 make zen5-full
@@ -65,7 +69,7 @@ make zen5-full
 
 Compiler flags used:
 ```
--march=znver5 -mtune=znver5 -mavx2 -mavx512f -mavx512dq -mavx512bw -mavx512vl
+-march=znver4 -mtune=znver4 -mavx2 -mavx512f -mavx512dq -mavx512bw -mavx512vl
 -Ofast -ftree-vectorize -flto -ffast-math
 ```
 
@@ -79,7 +83,7 @@ make zen5-avx2
 
 Compiler flags used:
 ```
--march=znver3 -mtune=znver5 -mavx2
+-march=znver3 -mtune=znver4 -mavx2
 -Ofast -ftree-vectorize -flto -ffast-math
 ```
 

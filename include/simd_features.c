@@ -89,7 +89,9 @@ void simd_detect_features(void) {
         g_cpu_features.avx512bf16 = (info_sub[0] & (1 << 5)) != 0;
     }
     
-    // Detect AMD Zen5 (Family 19h, Model >= 0x60)
+    // Detect AMD Zen5 (Family 19h, Model >= 0x60 or Family 1Ah)
+    // Note: While we detect Zen5, compiler flags use znver4 as znver5
+    // requires GCC 14+ or Clang 18+. znver4 includes AVX-512 support.
     if (g_cpu_features.is_amd) {
         cpuid(info, 1);
         int family = ((info[0] >> 8) & 0x0F) + ((info[0] >> 20) & 0xFF);
